@@ -1,7 +1,90 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem;
+  /* margin: auto; */
+  /* max-width: 38rem; */
+  /* padding: 2rem; */
+}
+
+#board{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.block{
+  user-select: none;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  /* margin: 0.4px; */
+  background-color: #c6c6c6;
+}
+
+.weekday{
+  background-color: #00b3ff62;
+}
+
+.weekend{
+  background-color: #ff000062;
+}
+
+/* 编辑器组件 */
+.block > .topbar{
+  width: 100%;
+  height: 20px;
+  position: absolute;
+  top: -20px;
+  background-color: #c6c6c6;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.block > .btmbar{
+  width: 100%;
+  height: 20px;
+  position: absolute;
+  top: 100%;
+  background-color: #c6c6c6;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.block > .textField{
+  width: 100%;
+  height: 100%;
+  background-color: azure;
+}
+
+/* 标签栏 */
+.topbar > .save{
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+}
+.topbar > .dateTitle{
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* 工具栏 */
+.btmbar > .done{
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+}
+
+/* 行标 */
+.editor {
+  counter-reset: line; /* reset the "line" counter */
+}
+.editor div{
+  display: block;
+  height: 1em;
+}
+.editor div::before {
+  content: counter(line);   /* insert a div with the value of the counter */
+  counter-increment: line;  /* increment the counter */
+  position: absolute;
+  right: calc(100% + 16px); /* add some space between this and the code line next to it */
 }
