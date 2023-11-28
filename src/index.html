@@ -4,11 +4,14 @@
     <meta charset="UTF-8" />
     <title>Hello World!</title>
     <link rel="stylesheet" href="index.css" />
+    <!-- <script src="https://unpkg.com/petite-vue" defer init></script> -->
+    <!-- <script type="module" src="https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js"></script> -->
     <script src="render.js"></script>
+    <script type="module" src="reactive.js"></script>
   </head>
   <body>
     <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <p v-scope>Welcome to your Electron application. {{chromeVer}}</p>
     <div id="board">
       <div class="block weekday"></div>
       <div class="block weekday"></div>
