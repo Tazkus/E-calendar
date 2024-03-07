@@ -1,94 +1,331 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
-  /* margin: auto; */
+  --top-banner-height: 40px;
+  --day-title-tab-height: 25px;
+  --week-tab-width: 25px;
+  /* --px-space: 1px; */
+  /* --px-big-space: 4px; */
+  --color-number: cornsilk;
+  --color-page: hsla(198, 100%, 50%, 0.24);
+  --color-page-1: hsla(0, 100%, 50%, 0.24);
+  --color-page-2: rgba(242, 255, 0, 0.400);
+  --gradient-default: linear-gradient(
+    var(--gradient-deg),
+    hsl(000deg, 0%, 79%, 0.10) 0%,
+    hsl(344deg, 0%, 81%, 0.10) 21%,
+    hsl(344deg, 0%, 83%, 0.10) 30%,
+    hsl(344deg, 0%, 86%, 0.10) 39%,
+    hsl(344deg, 0%, 88%, 0.10) 46%,
+    hsl(344deg, 0%, 90%, 0.10) 54%,
+    hsl(344deg, 0%, 93%, 0.10) 61%,
+    hsl(344deg, 0%, 95%, 0.10) 69%,
+    hsl(344deg, 0%, 98%, 0.10) 79%,
+    hsl(000deg, 0%, 100%, 0.10) 100%
+  );
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
   /* max-width: 38rem; */
   /* padding: 2rem; */
 }
-
-#board{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+image{
+  background-color: black;
 }
 
-.block{
-  user-select: none;
-  margin: 0 .5px 0 .5px;
-  width: 100px;
-  height: 100px;
-  position: relative;
-  /* margin: 0.4px; */
-  background-color: #c6c6c6;
-}
-
-.weekday{
-  background-color: #00b3ff62;
-}
-
-.weekend{
-  background-color: #ff000062;
-}
-
-/* 编辑器组件 */
-.block > .topbar{
-  width: 100%;
-  height: 20px;
+#Background{
   position: absolute;
-  top: -20px;
-  background-color: #c6c6c6;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-}
-.block > .btmbar{
-  width: 100%;
-  height: 20px;
-  position: absolute;
-  top: 100%;
-  background-color: #c6c6c6;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.block > .textField{
   width: 100%;
   height: 100%;
-  background-color: azure;
+  opacity: 25%;
+  overflow: hidden;
+  background-image: url("../assets/pattern-26.svg");
+  background-size: 60vh;
+  background-color: aliceblue;
+}
+#calendar-container{
+  display: flex;
+  flex-direction: column;
+  
+  width: 100%; min-width: 400px; max-width: 1000px;
+  height: 100%; min-height: 300px; max-height: 720px;
+  position:fixed; right: 0; top: 0;
+
+  align-items: center;
+  margin-left: 40px;
+  /* margin-right: 40px; */
+}
+#calendar-top-banner{
+  position: absolute; top: 0;
+  height: var(--top-banner-height);
+  width: 100%;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-image: var(--gradient-default);
+  background-color: var(--color-page);
+  margin-bottom: var(--px-big-space);
+}
+#calendar-top-banner>#title-current-date{
+  flex: auto;
+  /* width: 100px; */
+  text-align: center;
+  font-size: small;
+}
+#calendar-top-banner>.ibutton{
+  margin-left: 2px; margin-right: 2px;
+  height: 20px; width: 20px;
+
+  color: white;
+  /* background-color: aqua; */
+
+  /* border: 2px; */
+  /* border-radius: 2px; */
+  /* border-color: red; */
+}
+#calendar-top-banner>.ibutton:hover{
+  text-shadow: 0 0 20px white;
+}
+#calendar-top-banner>.ibutton::after{
+  content: "";
+  position: absolute;
+  background-color: red;
 }
 
-/* 标签栏 */
-.topbar > .save{
-  width: 15px;
-  height: 15px;
-  margin: 2px;
-}
-.topbar > .dateTitle{
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 11px;
+
+
+.calendar-day-title{
+  position: absolute; top: calc(var(--top-banner-height) + var(--px-big-space));
+  user-select: none;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: var(--px-big-space);
 }
 
-/* 工具栏 */
-.btmbar > .done{
-  width: 15px;
-  height: 15px;
-  margin: 2px;
+.calendar-day-title-tab{
+  height: var(--day-title-tab-height);
+  width: 25%; /*大于15%，使七天均分长度*/
+
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-right: var(--px-space);
+  background-image: var(--gradient-default);
+  background-color: var(--color-page);
+  font-size: small;
+}
+.calendar-day-title-tab:first-child{
+  margin-left: 0;
+}
+.calendar-day-title-tab:last-child{
+  margin-right: 0;
 }
 
-/* 行标 */
-.editor {
-  counter-reset: line; /* reset the "line" counter */
+.calendar-page-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  width: 100%;
+  height: 25%;
+  margin-bottom: var(--px-space);
 }
-.editor div{
-  font-size: 10px;
-  display: block;
-  padding-bottom: 4px;
-  /* height: 1em; */
+/* 左侧的周序号标签 */
+.week-tab{
+  user-select: none;
+  pointer-events: none;
+  /* content: attr(week); */
+  color: var(--color-number);
+
+  background-image: var(--gradient-default);
+  background-color: var(--color-page);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
+  position: absolute;
+  width: var(--week-tab-width);
+  height: 25%;
+  left: calc(-1*var(--week-tab-width) - var(--px-big-space));
+  /* top: 50px;  */
+  padding: 0; 
+  margin:0;
 }
-.editor div::before {
-  content: counter(line);   /* insert a div with the value of the counter */
-  counter-increment: line;  /* increment the counter */
-  /* position: absolute; */
-  right: calc(100% - 10px); /* add some space between this and the code line next to it */
+/* .calendar-page:first-child::after{
+  user-select: none;
+  pointer-events: none;
+  content: attr(week);
+  color: var(--color-number);
+  position: absolute; 
+  left: -21px; top: 0;
+
+  background-image: var(--gradient-default);
+  background-color: var(--color-page);
+
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
+  width: 20px;
+  height: 100%;
+  padding: 0; margin:0;
+} */
+#calendar-main{
+  position: absolute;
+  top: calc(var(--top-banner-height) + 2*var(--px-big-space) + var(--day-title-tab-height));
+  height: 100%; width: 100%;
+}
+.calendar-page{
+  user-select: none;
+  /* background:transparent; */
+  /* width: 25%; */
+  flex: 1;
+  height: 100%;
+  background-image: var(--gradient-default);
+  position: relative;
+  margin-right: var(--px-space);
+
+  transition: all 600ms;
+}
+.calendar-page:last-child{
+  margin-right: 0;
+}
+.calendar-page>div{
+  color: var(--color-number);
+}
+.calendar-page>div:not(.ui)::before{ /* dot before lines */
+  content: "•";   /* insert a div with the value of the counter */
+  right: calc(100% - 12px); /* add some space between this and the code line next to it */
+  padding-left: 2px;
   padding-right: 2px;
+}
+.calendar-page::before{
+  /* position: absolute; */
+  content:attr(dd);
+  color: var(--color-number);
+  padding-left: .5ch;
+}
+.calendar-page:hover{
+  background-color: var(--color-page-2);
+  transition: all 100ms ease-out;
+}
+
+/* 预设色彩模板 */
+.weekday{ 
+  /* background: transparent; */
+  background-color: var(--color-page);
+}
+.weekend{
+  /* background: transparent; */
+  background-color: var(--color-page);
+}
+.today{
+  box-shadow: 0 0 10px hsl(330, 100%, 71%);
+}
+
+
+.chat__body {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/Telegram/Resources/art/bg_initial.jpg");
+  background-position-y: -54px;
+  background-attachment: fixed;
+}
+
+
+.section {
+  margin: 10vh 0 10vh 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  --card-height: 65vh;
+  --card-width: calc(var(--card-height) / 1.5);
+  background: #191c29;
+  width: var(--card-width);
+  height: var(--card-height);
+  padding: 3px;
+  position: relative;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  font-size: 1.5em;
+  color: rgb(88 199 250 / 0%);
+  cursor: pointer;
+  font-family: cursive;
+}
+
+.card:hover {
+  color: rgb(88 199 250 / 100%);
+  transition: color 1s;
+}
+.card:hover:before, .card:hover:after {
+  animation: none;
+  opacity: 0;
+}
+
+.card::before {
+  content: "";
+  width: 104%;
+  height: 102%;
+  border-radius: 8px;
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff, #3c67e3 43%, #4e00c2);
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 2.5s linear infinite;
+}
+
+.card::after {
+  position: absolute;
+  content: "";
+  top: calc(var(--card-height) / 6);
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(var(--card-height) / 6));
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff, #3c67e3 43%, #4e00c2);
+    opacity: 1;
+  transition: opacity .5s;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}
+
+a {
+  color: #212534;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 2rem;
 }

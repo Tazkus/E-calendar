@@ -1,0 +1,109 @@
+body{
+    padding: 0;
+    margin: 0;
+    --bar-height: 30px;
+    --color-default: white;
+    --color-bar: hsla(0, 100%, 50%, 0.24);
+
+    /* font-size: large; */
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+[contenteditable] {
+    outline: 0px solid transparent;
+}
+
+/* 编辑器组件 */
+.bar{
+    background-color: hsl(0, 0%, 78%);
+    
+}
+#barTop {
+    width: 100%;
+    height: var(--bar-height);
+    position: absolute;
+    top: 0;
+    display: flex;
+    /* flex-direction: row-reverse; */
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bar);
+}
+
+#barBtm {
+    width: 100%;
+    height: var(--bar-height);
+    position: absolute;
+    z-index: 1;
+    bottom:0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--color-bar);
+}
+
+
+/* Buttons */
+.button-s{
+    width: 15px;
+    height: 15px;
+    /* margin: 2px; */
+}
+
+#close {
+    position: absolute;
+    right: 10px;
+    background-color: aqua;
+}
+
+#dateTitle {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 11px;
+}
+
+/* 工具栏 */
+#btnDone {
+    width: 15px;
+    height: 15px;
+    margin: 2px;
+}
+
+/* 行标 */
+.editor {
+    width: 100%;
+    height: calc(100% - 2*var(--bar-height));
+    top: var(--bar-height);
+
+    position: absolute;
+
+    /* padding-top: 1ch; */
+    /* z-index: 1; */
+
+    resize: both;
+
+    counter-reset: line; /* reset the "line" counter */
+}
+.editor>div::before{ /* dot before lines */
+    content: "•";   /* insert a div with the value of the counter */
+    right: calc(100% - 12px); /* add some space between this and the code line next to it */
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+.editor>div {
+    font-size: 16px;
+    display: calendar-page;
+}
+.editor::before{
+    /* position: absolute; */
+    content: "1111";
+    color: transparent;
+    padding-left: .5ch;
+}
+.editor>div::before {
+    content: counter(line);    /* insert a div with the value of the counter */
+    counter-increment: line;    /* increment the counter */
+    padding-left: 1px;
+    padding-right: 2px;
+}
