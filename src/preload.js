@@ -21,14 +21,15 @@ contextBridge.exposeInMainWorld('myapi', {
   send: (channel, ...value) => ipcRenderer.send(channel, ...value),
     
   // Main Window
-  onUpdateSettings: (callback) => ipcRenderer.on('update-settings', (_event, value) => callback(value)),
-  onUpdateCalendar: (callback) => ipcRenderer.on('update-calendar', (_event, value) => callback(value)),
+  onReceiveSettings: (callback) => ipcRenderer.on('update-settings', (_event, value) => callback(value)),
+  onReceiveCalendar: (callback) => ipcRenderer.on('update-calendar', (_event, value) => callback(value)),
+  onEditorClose: (callback) => ipcRenderer.on('editor-closed', (_event, value) => callback(value)),
   requestSettings: (settings) => ipcRenderer.send('request-settings', settings),
   requestCalendar: (first_date, last_date) => ipcRenderer.send('request-calendar', first_date, last_date),
   openEditing: (bound, date, lines) => ipcRenderer.send('mw-open-editor', bound, date, lines),
   
   // Editor Window
-  onOpenEditor: (callback) => ipcRenderer.on('update-page', (_event, date, lines) => callback(date, lines)),
+  onReceivePage: (callback) => ipcRenderer.on('update-page', (_event, date, lines) => callback(date, lines)),
   saveEditing: (date, lines) => ipcRenderer.send('save-editing', date, lines),
 })
 

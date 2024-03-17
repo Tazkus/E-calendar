@@ -1,33 +1,35 @@
 import { reactive } from 'https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js?module';
 
 class Calendar{
-    constructor(year){
+    constructor(){
         // properties
         this.mspd = 8.64e7; // milliseconds per day
-        this.firstDate = new Date(year, 0, 1); // 20xx.1.1
-        this.firstDay = this.date2day(this.firstDate); // which day in a week ()
+
+        this.year = new Date().getFullYear();
+        this.firstDate = new Date(this.year, 0, 1); // 20xx.1.1
+        this.firstDay = this.date2day(this.firstDate); // which day in a week [0,6]
         this.zeroDate = new Date(this.firstDate - this.mspd * this.firstDay);
         
-        this.lastDate = new Date(year, 11, 31);
+        this.lastDate = new Date(this.year, 11, 31);
         this.lastDay = this.date2day(this.lastDate);
-        // this.endDate = 
+        this.endDate = new Date(this.lastDate + this.mspd * (6 - this.lastDay));
 
         // reactive states
-        this.year = year;
         this.sun_first = false;
-        this.curWeek = reactive(this.getCurWeek());
+        this.current = reactive({
+            today: this.dateToStr_yyyymmdd(new Date()),
+            week: this.getCurWeek(), // int
+        });
 
-        // 启动时读取
+        console.log(`[Calendar] ZeroDate:${this.zeroDate}`);
+        console.log(`[Calendar] CurrentWeek:${this.current.week}`);
 
-        console.log(this.zeroDate);
         this.requestUpdate();
     };
 
     requestUpdate(){
-        let first = new Date(this.zeroDate*1. + 8.64e7 * 7 * this.curWeek);
+        let first = new Date(this.zeroDate*1. + 8.64e7 * 7 * this.current.week);
         let last = new Date(first*1. + 8.64e7 * 28);
-        console.log(first);
-        console.log(last);
         let first_date = this.dateToStr_yyyymmdd(first);
         let last_date = this.dateToStr_yyyymmdd(last);
         // ipcRenderer.send('request-update', first_date, last_date);
@@ -69,9 +71,9 @@ class Calendar{
         for(let i=0;i<rows;i++){
             weekList.push(startWeek + i);
         }
-        console.log(startWeek);
-        console.log(rows);
-        console.log(weekList);
+        // console.log(startWeek);
+        // console.log(rows);
+        // console.log(weekList);
         return weekList
     }
 
@@ -90,20 +92,22 @@ class Calendar{
     getCurWeek(){
         let date = new Date();
         let week = (date - this.zeroDate) / this.mspd / 7;
-        console.log(week);
         return Math.floor(week)
     }
     isWeekday(date){
-        let day = (date.getDay()+6)%7;
-        return day<5;
+        let day = (date.getDay() + 6) % 7;
+        return day < 5;
     }
-    scrollup = ()=>{
-        this.curWeek--;
-        console.log(this.curWeek);
+    isToday(date){
+        return this.dateToStr_yyyymmdd(date) === this.current.today;
     }
-    scrolldown = ()=>{
-        this.curWeek++;
-        console.log(this.curWeek);
+    backward = ()=>{
+        this.current.week = this.current.week - 1;
+        this.requestUpdate();
+    }
+    forward = ()=>{
+        this.current.week = this.current.week + 1;
+        this.requestUpdate();
     }
 }
 

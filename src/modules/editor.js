@@ -1,5 +1,27 @@
 // 由于壁纸式窗口无法使用回车键，需要创建新的磁贴式窗口，在窗口内进行编辑
+
+let smart_clicks = false;
+// window.addEventListener('blur', () => {
+//     console.log('Blurred');
+//     smart_clicks = true;
+// });
+// window.addEventListener('focus', () => {
+//     console.log('Focused');
+//     smart_clicks = false;
+// });
+
 function openPage(event){
+    console.log(event.detail);
+    if (event.detail < 2) {
+        if(smart_clicks){
+            smart_clicks = false;
+        }
+        else{
+            smart_clicks = false;
+            return;
+        }
+    }
+
     let page = event.target;
     let date = page.getAttribute("id");
     let rect = page.getBoundingClientRect();
@@ -10,7 +32,7 @@ function openPage(event){
         width: Math.round(rect.width),
         height: Math.round(rect.height + 2*px)
     };
-    console.log(bound);
+    console.log("Trying to open page: "+date);
 
     let lines = [];
     let children = page.children;
@@ -21,55 +43,42 @@ function openPage(event){
 
     // remove all children of page
     page.innerHTML = "";
+    // while(page.firstChild){
+    //     page.removeChild(page.firstChild);
+    // };
 
     window.myapi.openEditing(bound, date, lines);
 }
 
-// 根据新窗口活动，同步更新page中的内容
-function syncPage(page){
-
-}
-
 // 
 function loadPages(diary) {
-    // console.log(diary);
     let date = Object.keys(diary);
+    // Clean every page
+    let allPages = document.getElementsByClassName("calendar-page");
+    for(let i=0; i<allPages.length; i++){
+        let page = allPages[i];
+        page.innerHTML = "";
+    }
+
     // Every found date
     date.forEach(date => {
         let lines = diary[date]; // Array
         let page = document.getElementById(date);
-        
-        console.log("Loading:"+date+":"+lines);
 
-        lines.forEach(line => {
-            // console.log(line);
-            if("innerText" in line){
-                let l = document.createElement("div");
-                l.textContent = line["innerText"];
-                page.appendChild(l);
-            }
-        });
+        if(page !== null){        
+            console.log("Loading:"+date+":"+lines);
+    
+            lines.forEach(line => {
+                if("innerText" in line){
+                    let l = document.createElement("div");
+                    l.textContent = line["innerText"];
+                    page.appendChild(l);
+                }
+            });
+        }
     });
     console.log("All pages updated.");
 }
 
-
-
-// 为所有page添加事件
-function mount(){
-    let pages = document.getElementsByClassName("calendar-page");
-    for(let i=0; i<pages.length; i++){
-        const page = pages[i];
-        page.addEventListener("dblclick", openPage);
-    }
-}
-
-// 自动关联通信API：Side Effect Style
-window.myapi.onUpdateCalendar((requested) => {
-    loadPages(requested);
-});
-
-document.addEventListener('DOMContentLoaded', mount);
-
-export default { openPage };
+export { openPage, loadPages };
     

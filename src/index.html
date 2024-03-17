@@ -6,54 +6,26 @@
     <link rel="stylesheet" href="index.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="reactive.js"></script>
-    <!-- <script type="module" src="notepad.js"></script> -->
   </head>
   <body>
-    <!-- <h1>💖 Hello World!</h1> -->
-
-    <!-- <p v-scope> Welcome to your Electron application.
-      <div v-scope>{{}}</div>
-    </p> -->
-
     <div id="calendar-container" v-scope="CalendarView()"></div>
-<!--     
-    <div class="section">
-      <div class="card">
-        Magic Card
-      </div>
-    </div> -->
-    
   </body>
 </html>
 
-<!-- vue components template -->
 <template id="CalendarView">
-  <!-- <div id="Background"></div> -->
-  <div id="calendar-top-banner">
+  <div id="calendar-top-banner" class="block">
     <div id="title-current-date">{{today}}</div>
-    <!-- <image class="ibutton" src="../assets/icons/down-arrow-backup-3-svgrepo-com.svg" @click="calendar.scrollup()"> -->
-    <image class="ibutton" src="../assets/icons/down-arrow-backup-3-svgrepo-com.svg" @click="curWeek--">
-    <!-- <image class="ibutton" src="../assets/icons/down-arrow-backup-2-svgrepo-com.svg" @click="calendar.scrolldown()"> -->
-    <image class="ibutton" src="../assets/icons/down-arrow-backup-2-svgrepo-com.svg" @click="curWeek++">
-    <image class="ibutton" src="../assets/icons/gear-svgrepo-com.svg" @click="">
+    <img class="ibutton" src="../assets/icons/down-arrow-backup-3-svgrepo-com.svg" @click="calendar.backward()">
+    <img class="ibutton" src="../assets/icons/down-arrow-backup-2-svgrepo-com.svg" @click="calendar.forward()">
+    <img class="ibutton" src="../assets/icons/gear-svgrepo-com.svg" @click="">
   </div>
-  <div class="calendar-day-title">
-    <div class="calendar-day-title-tab" v-for="col in colList">{{col}}</div>
+  <div id="calendar-day-title">
+    <div class="calendar-day-title-tab block" v-for="col in colList">{{col}}</div>
   </div>
-  <!-- <div v-for="week in calendar.getRowList(curWeek, 4)" class="calendar-page-row" :week="week" :style="{width:roundedWidth, height:roundedHeight}"> -->
   <div id="calendar-main">
-    <div v-for="week in calendar.getRowList(curWeek, 4)" class="calendar-page-row" :week="week">
-      <!-- <div class="calendar-week-no" :week="week">{{week}}</div> -->
-      <div class="week-tab" :week="week">{{week}}</div>
-      <div v-for="date in calendar.getDateList(week)" class="calendar-page" 
-      :id="calendar.dateToStr_yyyymmdd(date)"
-      :class="[isWeekday(date)?'weekday':'weekend']"
-      :dd="date.getDate()" :mm="date.getMonth()+1" :yy="date.getFullYear()" 
-      :week="week" :day="calendar.date2day(date)"
-      :fulldate="calendar.dateToStr_Full(date)" >
+    <div v-for="week in calendar.getRowList(calendar.current.week, 4)" class="calendar-page-row" :week="week">
+      <div class="week-tab block" :week="week">{{week}}</div>
+      <div v-for="date in calendar.getDateList(week)" class="calendar-page block" :id="calendar.dateToStr_yyyymmdd(date)" :class="[calendar.isWeekday(date)?'weekday':'weekend', calendar.isToday(date)?'today':'anyday']" :dd="date.getDate()" :mm="date.getMonth()+1" :yy="date.getFullYear()" :week="week" :day="calendar.date2day(date)" :fulldate="calendar.dateToStr_Full(date)" @click="openPage($event)"></div>
     </div>
   </div>
-</div>
-
-  <!-- <img src="../assets/pattern-1.svg" alt="svg"> -->
 </template>

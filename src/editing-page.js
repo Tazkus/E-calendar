@@ -8,9 +8,13 @@ function get_lines(){
     let lines = [];
     let divs = textArea.querySelectorAll("div");
     for(let i = 0; i < divs.length; i++){
-        lines.push({
-            "innerText":divs[i].innerText
-        });
+        if(divs[i].innerText.length > 0){
+            lines.push({
+                "innerText":divs[i].innerText,
+                "color":divs[i].style.color,
+                "--done":divs[i].getAttribute('done'),
+            });
+        }
     }
     return lines;
 }
@@ -18,9 +22,10 @@ function get_lines(){
 let this_date = "20240101";
 let this_lines;
 
-window.myapi.onOpenEditor((date, lines) => {
+window.myapi.onReceivePage((date, lines) => {
     this_date = date;
     this_lines = lines;
+    console.log(date);
     console.log(this_lines);
 
     let fulldate = `${date.slice(0,4)}年${date.slice(4,6)}月${date.slice(6,8)}日`;
@@ -50,7 +55,7 @@ $(document).ready(()=>{
     setCaret(div.innerText.length, div);
 
     // Bind button events
-    $('#close').on('mouseup.left', (el)=>{
+    $('#btnSave').on('mouseup.left', (el)=>{
         window.myapi.saveEditing(this_date, get_lines());
         // window.myapi.closeEditor();
         window.close();

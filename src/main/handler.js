@@ -70,7 +70,8 @@ function readFile(first_date, last_date) {
 function updateFile(date, lines) {
     let diary = readFile();
     
-    diary[date] = lines;
+    if(lines.length > 0)
+        diary[date] = lines;
 
     fs.writeFileSync(filePath, JSON.stringify(diary), err => {
         if (err) throw err;
@@ -111,7 +112,7 @@ class Handler{
             
         // ALl events main process receives
         ipcMain.on('request-calendar', (event, fd, ld) => {
-            console.log('=> request-calendar');
+            console.log(`=> request-calendar(${fd} - ${ld})`);
             let res = this.loadData(fd, ld);
             this.mainWindow.webContents.send('update-calendar', res)
         });
@@ -123,7 +124,10 @@ class Handler{
         });
 
         ipcMain.on('save-editing', (event, date, lines) => {
+            // update file
             updateFile(date, lines);
+            // update calendar
+            this.mainWindow.webContents.send('editor-closed');
         });
 
     }
@@ -143,7 +147,6 @@ class Handler{
         
         // Send to renderer process to update page.
         // this.mainWindow.webContents.send('update-calendar', requested);
-        console.log(diary);
         return diary
     }
 

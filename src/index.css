@@ -4,10 +4,15 @@ body {
   --week-tab-width: 25px;
   /* --px-space: 1px; */
   /* --px-big-space: 4px; */
+  --color-text: cornsilk;
   --color-number: cornsilk;
-  --color-page: hsla(198, 100%, 50%, 0.24);
-  --color-page-1: hsla(0, 100%, 50%, 0.24);
-  --color-page-2: rgba(242, 255, 0, 0.400);
+  --color-page: hsla(198, 100%, 50%, 0.40);
+  --color-page-selected: hsla(198, 100%, 55%, 0.60);
+  --color-page-1: hsla(0, 100%, 50%, 0.40);
+  --color-page-selected-1: hsla(0, 100%, 50%, 0.40);
+  
+  --color-page-outline: hsla(0, 0%, 100%, 0.2);
+
   --gradient-default: linear-gradient(
     var(--gradient-deg),
     hsl(000deg, 0%, 79%, 0.10) 0%,
@@ -69,25 +74,22 @@ image{
   background-color: var(--color-page);
   margin-bottom: var(--px-big-space);
 }
-#calendar-top-banner>#title-current-date{
+#title-current-date{
   flex: auto;
   /* width: 100px; */
   text-align: center;
-  font-size: small;
+  font-size: medium;
+  color: var(--color-text);
 }
 #calendar-top-banner>.ibutton{
   margin-left: 2px; margin-right: 2px;
   height: 20px; width: 20px;
 
-  color: white;
-  /* background-color: aqua; */
-
-  /* border: 2px; */
-  /* border-radius: 2px; */
-  /* border-color: red; */
+  opacity: 50%;
 }
 #calendar-top-banner>.ibutton:hover{
   text-shadow: 0 0 20px white;
+  opacity: 100%;
 }
 #calendar-top-banner>.ibutton::after{
   content: "";
@@ -96,8 +98,11 @@ image{
 }
 
 
-
-.calendar-day-title{
+.block{
+  box-shadow: inset 0.8px 0 0px 0 var(--color-page-outline),
+  inset 0 0.8px 0px 0 var(--color-page-outline);
+}
+#calendar-day-title{
   position: absolute; top: calc(var(--top-banner-height) + var(--px-big-space));
   user-select: none;
   width: 100%;
@@ -118,7 +123,8 @@ image{
   margin-right: var(--px-space);
   background-image: var(--gradient-default);
   background-color: var(--color-page);
-  font-size: small;
+  font-size: medium;
+  color: var(--color-text);
 }
 .calendar-day-title-tab:first-child{
   margin-left: 0;
@@ -200,6 +206,7 @@ image{
   margin-right: 0;
 }
 .calendar-page>div{
+  pointer-events: none;
   color: var(--color-number);
 }
 .calendar-page>div:not(.ui)::before{ /* dot before lines */
@@ -215,11 +222,11 @@ image{
   padding-left: .5ch;
 }
 .calendar-page:hover{
-  background-color: var(--color-page-2);
+  background-color: var(--color-page-selected);
   transition: all 100ms ease-out;
 }
 
-/* 预设色彩模板 */
+/* style for different days */
 .weekday{ 
   /* background: transparent; */
   background-color: var(--color-page);
@@ -229,7 +236,8 @@ image{
   background-color: var(--color-page);
 }
 .today{
-  box-shadow: 0 0 10px hsl(330, 100%, 71%);
+  box-shadow: 0px 0 2.4px 0.8px whitesmoke;
+  /* background-color: var(--color-page-2); */
 }
 
 

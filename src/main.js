@@ -80,7 +80,7 @@ async function createWindow() {
     attach(mainWindow, {
         transparent: true,
         forwardMouseInput: true,
-        forwardKeyboardInput: true,
+        // forwardKeyboardInput: true,
     });
 
     mainWindow.webContents.openDevTools({
@@ -96,7 +96,9 @@ ipcMain.on('mw-open-editor', (event, bound, date, lines) => {
     if (this.editing) return;
     this.editing = true;
     
-    console.log(__dirname);
+    // console.log(__dirname);
+    console.log("Opening page: "+date);
+
 
     const editor = new BrowserWindow({
         show: false,
@@ -108,7 +110,7 @@ ipcMain.on('mw-open-editor', (event, bound, date, lines) => {
         alwaysOnTop: true,
         transparent: true,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'preload_edit.js'),
         },
     });
     this.editor = editor;
@@ -139,15 +141,15 @@ ipcMain.on('mw-open-editor', (event, bound, date, lines) => {
     // editor.webContents.openDevTools();
     editor.webContents.openDevTools({mode: "detach"});
 });
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+
+// This method will be called when Electron has finished initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 app.on('quit', () => {
     refresh();
 });
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
+
+// Quit when all windows are closed, except on macOS. There, it's common for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
     refresh();
@@ -163,7 +165,3 @@ app.on('activate', () => {
         createWindow();
     }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-//try to restore window on minimize

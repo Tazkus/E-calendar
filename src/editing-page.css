@@ -3,7 +3,7 @@ body{
     margin: 0;
     --bar-height: 30px;
     --color-default: white;
-    --color-bar: hsla(0, 100%, 50%, 0.24);
+    --color-bar: hsl(28, 100%, 50%);
 
     /* font-size: large; */
     color: white;
@@ -46,16 +46,21 @@ body{
 
 /* Buttons */
 .button-s{
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     /* margin: 2px; */
 }
-
-#close {
+#btnSave {
     position: absolute;
-    right: 10px;
-    background-color: aqua;
+    right: 10px; top: 30px;
+    opacity: 80%;
+
 }
+#btnSave:hover {
+    opacity: 100%;
+}
+
+
 
 #dateTitle {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -73,7 +78,7 @@ body{
 .editor {
     width: 100%;
     height: calc(100% - 2*var(--bar-height));
-    top: var(--bar-height);
+    top: calc(var(--bar-height) + 20px);
 
     position: absolute;
 
@@ -95,12 +100,11 @@ body{
     font-size: 16px;
     display: calendar-page;
 }
-.editor::before{
-    /* position: absolute; */
+/* .editor::before{
     content: "1111";
     color: transparent;
     padding-left: .5ch;
-}
+} */
 .editor>div::before {
     content: counter(line);    /* insert a div with the value of the counter */
     counter-increment: line;    /* increment the counter */
