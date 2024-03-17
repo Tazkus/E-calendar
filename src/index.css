@@ -81,17 +81,25 @@ image{
   font-size: medium;
   color: var(--color-text);
 }
-#calendar-top-banner>.ibutton{
-  margin-left: 2px; margin-right: 2px;
+#left-side-buttons{
+  position: absolute; left: 0;
+}
+#right-side-buttons{
+  position: absolute; right: 0;
+  display: flex;
+}
+
+#calendar-top-banner .ibutton{
+  margin-left: 6px; margin-right: 6px;
   height: 20px; width: 20px;
 
   opacity: 50%;
 }
-#calendar-top-banner>.ibutton:hover{
+#calendar-top-banner .ibutton:hover{
   text-shadow: 0 0 20px white;
   opacity: 100%;
 }
-#calendar-top-banner>.ibutton::after{
+#calendar-top-banner .ibutton::after{
   content: "";
   position: absolute;
   background-color: red;
