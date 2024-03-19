@@ -1,3 +1,8 @@
+# 
+data/
+assets/bg-patterns
+assets/sounds
+
 # Logs
 logs
 *.log
