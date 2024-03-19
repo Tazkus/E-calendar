@@ -17,7 +17,8 @@ class Calendar{
         // reactive states
         this.sun_first = false;
         this.current = reactive({
-            today: this.dateToStr_yyyymmdd(new Date()),
+            // today: this.dateToStr_yyyymmdd(new Date()),
+            today: "20240309",
             week: this.getCurWeek(), // int
         });
 
@@ -109,6 +110,27 @@ class Calendar{
         this.current.week = this.current.week + 1;
         this.requestUpdate();
     }
+    // 获取指定日期的节气/农历日
+    getSolarTerm = (date)=>{
+        let year = date.getFullYear(); //[1891-2100]
+        let month = date.getMonth() + 1; //[1-12]
+        let day = date.getDate(); //[1-31]
+
+        const lunar = window.LunarCalendar.solarToLunar(year, month, day);
+        
+        let term;
+        if(lunar.term) term = lunar.term; // 节气
+        else term = lunar.lunarDayName; // 农历日
+        
+        return term;
+    }
+    getTitle = (date)=>{
+        let dd = date.getDate();
+        let term = this.getSolarTerm(date);
+        return dd + " " + term;
+    }
 }
+
+
 
 export default Calendar;

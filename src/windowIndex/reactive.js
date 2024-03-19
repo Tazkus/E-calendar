@@ -3,7 +3,7 @@ let scale;
 window.myapi.requestSettings({});
 window.myapi.onReceiveSettings((setting) => {
     scale = setting.scale;
-    document.body.style.setProperty("--px-space", (1 / scale)+'px');
+    document.body.style.setProperty("--px-space", (2 / scale)+'px');
     document.body.style.setProperty("--px-big-space", (3 / scale)+'px');
 })
 window.myapi.onEditorClose(()=>{
@@ -23,8 +23,8 @@ window.myapi.onReceiveCalendar((requested) => {
 
 // import { createApp } from 'https://unpkg.com/petite-vue?module'
 import { createApp } from 'https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js?module';
-import Calendar from './modules/calendar.js';
-import {openPage, loadPages} from './modules/editor.js';
+import Calendar from './calendar.js';
+import {openPage, loadPages} from './events.js';
 let calendar = new Calendar();
 
 createApp({
@@ -41,10 +41,10 @@ createApp({
         return {
             $template: '#CalendarView',
             // 方法
-            today: calendar.dateToStr_Full(new Date()),
             colList: calendar.getColList(),
             isWeekday: calendar.isWeekday,
             openPage: openPage,
+            // today: calendar.dateToStr_Full(new Date()),
         }
     },
 }).mount()

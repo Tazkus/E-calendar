@@ -76,8 +76,9 @@ body{
 
 /* 行标 */
 .editor {
+    overflow: hidden;
     width: 100%;
-    height: calc(100% - 2*var(--bar-height));
+    height: calc(100% - 2*var(--bar-height) - 20px);
     top: calc(var(--bar-height) + 20px);
 
     position: absolute;
@@ -98,7 +99,6 @@ body{
 
 .editor>div {
     font-size: 16px;
-    display: calendar-page;
 }
 /* .editor::before{
     content: "1111";

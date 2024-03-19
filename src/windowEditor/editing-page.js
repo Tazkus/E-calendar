@@ -1,4 +1,4 @@
-import {setCaret} from './modules/caret.js'
+import {setCaret} from '../utils/caret.js'
 
 let textArea = document.getElementById('textArea');
 textArea.contentEditable = true;
@@ -8,7 +8,7 @@ function get_lines(){
     let lines = [];
     let divs = textArea.querySelectorAll("div");
     for(let i = 0; i < divs.length; i++){
-        if(divs[i].innerText.length > 0){
+        if(divs[i].innerText.trim().length > 0){
             lines.push({
                 "innerText":divs[i].innerText,
                 "color":divs[i].style.color,
@@ -44,12 +44,17 @@ window.myapi.onReceivePage((date, lines) => {
         div.innerText = this_lines[i];
         textArea.appendChild(div);
     }
+
+    let divs = textArea.querySelectorAll("div");
+    if(divs.length === 0){
+        textArea.innerHTML = '<div></div>';
+    }
+
+    const div = document.querySelector("#textArea>div:last-child");
+    setCaret(div.innerText.length, div);
 });
 
 $(document).ready(()=>{
-
-
-
     // set caret to last line last char
     const div = document.querySelector("#textArea>div:last-child");
     setCaret(div.innerText.length, div);

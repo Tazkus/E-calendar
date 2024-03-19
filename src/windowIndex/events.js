@@ -22,7 +22,7 @@ function openPage(event){
         }
     }
 
-    let page = event.target;
+    let page = event.currentTarget;
     let date = page.getAttribute("id");
     let rect = page.getBoundingClientRect();
     const px = 30;

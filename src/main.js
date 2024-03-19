@@ -1,9 +1,8 @@
 const { app, BrowserWindow, screen, ipcMain, Menu, Tray} = require('electron');
 const { attach, refresh } = require("electron-as-wallpaper");
 const path = require('path');
-
 // 
-const Handler = require('./main/handler.js');
+const Handler = require('./handler.js');
 // import Handler from "./main/handler.mjs";
 const { log } = require('console');
 
@@ -37,7 +36,7 @@ async function createWindow() {
         webPreferences: {
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, '/windowIndex/preload.js'),
         },
     });
 
@@ -76,7 +75,7 @@ async function createWindow() {
 
     
     // https://github.com/meslzy/electron-as-wallpaper/blob/main/exmaples/input-forwarding/index.js
-    await mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    await mainWindow.loadFile(path.join(__dirname, 'windowIndex/index.html'));
     attach(mainWindow, {
         transparent: true,
         forwardMouseInput: true,
@@ -110,13 +109,13 @@ ipcMain.on('mw-open-editor', (event, bound, date, lines) => {
         alwaysOnTop: true,
         transparent: true,
         webPreferences: {
-            preload: path.join(__dirname, 'preload_edit.js'),
+            preload: path.join(__dirname, 'windowEditor/preload_edit.js'),
         },
     });
     this.editor = editor;
 
     editor.setBounds(bound);
-    editor.loadFile(path.join(__dirname, 'editing-page.html'));
+    editor.loadFile(path.join(__dirname, 'windowEditor/editing-page.html'));
 
     // 保持在桌面上方，防止被最小化
     editor.on('minimize', (e) => {
@@ -139,7 +138,29 @@ ipcMain.on('mw-open-editor', (event, bound, date, lines) => {
     });
 
     // editor.webContents.openDevTools();
-    editor.webContents.openDevTools({mode: "detach"});
+    // editor.webContents.openDevTools({mode: "detach"});
+});
+
+ipcMain.on('mw-open-settings', (event) => {
+    if(this.swAlreadyOpened) return;
+    this.swAlreadyOpened = true;
+
+    // settingsWindow
+    const sw = new BrowserWindow({
+        show: false,
+        resizable: false,
+        webPreferences: {
+            preload: path.join(__dirname, '/windowMenu/settings.js'),
+        },
+    });
+
+    sw.loadFile(path.join(__dirname, '/windowMenu/settings.html'));
+    sw.on('ready-to-show', () => {
+        sw.show();
+    });
+    sw.on('closed', () => {
+        this.swAlreadyOpened = false;
+    });
 });
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows.

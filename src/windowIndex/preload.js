@@ -8,6 +8,12 @@ contextBridge.exposeInMainWorld('myapi', {
   document: document,
   ipcRenderer: ipcRenderer,
   
+  // LunarCalendar
+  getLunarDate: (yyyymmdd) => ipcRenderer.send("getLunarDate", yyyymmdd),
+  getSolarTerm: (yyyymmdd) => ipcRenderer.send("getSolarTerm", yyyymmdd),
+  getHolidays: (yyyymmdd) => ipcRenderer.send("getHolidays", yyyymmdd),
+
+
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
@@ -21,12 +27,15 @@ contextBridge.exposeInMainWorld('myapi', {
   send: (channel, ...value) => ipcRenderer.send(channel, ...value),
     
   // Main Window
-  onReceiveSettings: (callback) => ipcRenderer.on('update-settings', (_event, value) => callback(value)),
-  onReceiveCalendar: (callback) => ipcRenderer.on('update-calendar', (_event, value) => callback(value)),
-  onEditorClose: (callback) => ipcRenderer.on('editor-closed', (_event, value) => callback(value)),
+  openSettings: () => ipcRenderer.send('mw-open-settings'),
   requestSettings: (settings) => ipcRenderer.send('request-settings', settings),
+  onReceiveSettings: (callback) => ipcRenderer.on('update-settings', (_event, value) => callback(value)),
+  
   requestCalendar: (first_date, last_date) => ipcRenderer.send('request-calendar', first_date, last_date),
+  onReceiveCalendar: (callback) => ipcRenderer.on('update-calendar', (_event, value) => callback(value)),
+
   openEditing: (bound, date, lines) => ipcRenderer.send('mw-open-editor', bound, date, lines),
+  onEditorClose: (callback) => ipcRenderer.on('editor-closed', (_event, value) => callback(value)),
   
   // Editor Window
   onReceivePage: (callback) => ipcRenderer.on('update-page', (_event, date, lines) => callback(date, lines)),

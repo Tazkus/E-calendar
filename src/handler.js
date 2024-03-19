@@ -1,8 +1,7 @@
 const { app, BrowserWindow, screen, ipcMain, Menu, Tray} = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { type } = require('os');
-const { rejects } = require('assert');
+// const LunarCalendar = require('lunar-calendar');
 
 const userDataPath = app.getPath('userData');
 const filePath = "./data/diary.json";
@@ -70,7 +69,7 @@ function readFile(first_date, last_date) {
 function updateFile(date, lines) {
     let diary = readFile();
     
-    if(lines.length > 0)
+    // if(lines.length > 0)
         diary[date] = lines;
 
     fs.writeFileSync(filePath, JSON.stringify(diary), err => {
@@ -129,7 +128,6 @@ class Handler{
             // update calendar
             this.mainWindow.webContents.send('editor-closed');
         });
-
     }
 
     // 从文件中简要记录，并显示在page中

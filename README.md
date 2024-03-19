@@ -3,13 +3,11 @@
 > - A desktop calendar based on electron, inspired by [https://www.xdiarys.com/].
 > - Using [https://github.com/meslzy/electron-as-wallpaper].
 
-## Original Features 💘
+![Preview](assets/preview.png)
 
-- [ ] Settings menu.
-- [ ] Displaying lunar day / solar term on Page.
-- [ ] Expandable Text Field.
-- [ ] Toolbar.
+## TO-DOs 📃
 
-## New Features ⭐
-
-- [ ] Floating window when editing Page instead of expandable text box.
+- [x] Fancy yet Faithful UI.
+- [x] Displaying lunar date / solar term on pages.
+- [x] Editing and saving notes.
+- [ ] More cofigurable things.

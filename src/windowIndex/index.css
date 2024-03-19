@@ -214,9 +214,14 @@ image{
   margin-right: 0;
 }
 .calendar-page>div{
-  pointer-events: none;
+  /* pointer-events: none; */
   color: var(--color-number);
 }
+.calendar-page:hover{
+  background-color: var(--color-page-selected);
+  transition: all 100ms ease-out;
+}
+
 .calendar-page>div:not(.ui)::before{ /* dot before lines */
   content: "•";   /* insert a div with the value of the counter */
   right: calc(100% - 12px); /* add some space between this and the code line next to it */
@@ -225,14 +230,20 @@ image{
 }
 .calendar-page::before{
   /* position: absolute; */
-  content:attr(dd);
+  content:attr(title);
+  color: var(--color-number);
+  padding-left: .5ch;
+  font-size: small;
+}
+
+
+/* .calendar-page-day{
   color: var(--color-number);
   padding-left: .5ch;
 }
-.calendar-page:hover{
-  background-color: var(--color-page-selected);
-  transition: all 100ms ease-out;
-}
+.calendar-page-term{
+  color: var(--color-number);
+} */
 
 /* style for different days */
 .weekday{ 

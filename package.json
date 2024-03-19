@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "productName": "calendar",
-  "version": "0.1.9",
+  "version": "0.2.2",
   "description": "My Electron application description",
   "main": "src/main.js",
   "scripts": {
@@ -20,6 +20,7 @@
   "dependencies": {
     "electron-as-wallpaper": "^1.0.5",
     "electron-squirrel-startup": "^1.0.0",
+    "lunar-calendar": "^0.1.4",
     "vue": "^3.4.21"
   },
   "devDependencies": {
