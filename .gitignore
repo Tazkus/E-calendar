@@ -1,7 +1,10 @@
 # 
+.vscode/
 data/
-assets/bg-patterns
-assets/sounds
+assets/bg-patterns/
+assets/sounds/
+src/components/
+
 
 # Logs
 logs
