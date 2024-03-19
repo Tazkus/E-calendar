@@ -1,3 +1,4 @@
+const { safeStorage } = require("electron");
 
 
 async function a2(){
@@ -18,3 +19,4 @@ b().then(res=>console.log(res));
 console.log(1);
 a();
 console.log(2);
+
